@@ -1,0 +1,90 @@
+{
+    "builders": [
+        {
+            "type": "vsphere-iso",
+            "guest_os_type": "centos7_64Guest",
+            "floppy_files": [
+                "ks.cfg"
+            ],
+            "boot_command": [
+                "<up><wait><tab>",
+                " linux ks=hd:fd0:/ks.cfg",
+                "<enter><wait>"
+            ],
+            "boot_order": "disk,cdrom",
+            "boot_wait": "10s",
+            "shutdown_command": "/usr/sbin/poweroff",
+            "shutdown_timeout": "5m",
+            "CPUs": "{{user `vm-cpu-num`}}",
+            "cpu_cores": "1",
+            "CPU_hot_plug": false,
+            "RAM": "{{user `vm-mem-size`}}",
+            "RAM_reserve_all": false,
+            "RAM_hot_plug": false,
+            "disk_controller_type": "pvscsi",
+            "storage": [
+                {
+                    "disk_size": "{{user `vm-disk-size`}}",
+                    "disk_thin_provisioned": true,
+                    "disk_eagerly_scrub": true,
+                    "disk_controller_index": 0
+                }
+            ],
+            "network_adapters": [
+                {
+                    "network": "{{user `vsphere-network`}}",
+                    "network_card": "vmxnet3"
+                }
+            ],
+            "firmware": "bios",
+            "cdrom_type": "ide",
+            "iso_paths": [
+                "{{user `iso-path`}}"
+            ],
+            "create_snapshot": false,
+            "convert_to_template": false,
+            "vcenter_server": "{{user `vsphere-server`}}",
+            "username": "{{user `vsphere-user`}}",
+            "password": "{{user `vsphere-password`}}",
+            "insecure_connection": true,
+            "datacenter": "{{user `vsphere-datacenter`}}",
+            "vm_name": "{{ user `vm-name` }}",
+            "cluster": "{{user `vsphere-cluster`}}",
+            "host": "{{user `vsphere-host`}}",
+            "datastore": "{{user `vsphere-datastore`}}",
+            "vm_version": "18",
+            "communicator": "ssh",
+            "ssh_username": "{{user `ssh-username`}}",
+            "ssh_password": "{{user `ssh-password`}}"
+        }
+    ],
+    "post-processors": [],
+    "provisioners": [
+        {
+            "expect_disconnect": true,
+            "scripts": [
+                "{{template_dir}}/../_common/sshd.sh",
+                "{{template_dir}}/../_common/cleanup.sh"
+            ],
+            "type": "shell"
+        }
+    ],
+    "variables": {
+        "ks_path": "ks.cfg",
+        "vm-cpu-num": "16",
+        "vm-mem-size": "32768",
+        "vm-disk-size": "65536",
+        "iso-path": "[datastore] mirrors/centos/CentOS-7-x86_64-Everything-2003.iso",
+        "vsphere-network": "DPortGroupVM",
+        "vsphere-server": "vcenter.miy4mori.local",
+        "vsphere-user": "administrator@miy4mori.local",
+        "vsphere-password": "administrator",
+        "vsphere-datacenter": "Datacenter",
+        "vsphere-cluster": "Cluster",
+        "vsphere-host": "172.16.0.1",
+        "vsphere-datastore": "datastore",
+        "ssh-username": "root",
+        "ssh-password": "root",
+        "vm-name": "Hadoop-06"
+    }
+}
