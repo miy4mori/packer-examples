@@ -6,7 +6,7 @@
       "guest_os_type": "centos-64",
       "iso_url": "../../isos/CentOS-7-x86_64-Everything-2009.iso",
       "iso_checksum": "689531cce9cf484378481ae762fae362791a9be078fda10e4f6977bf8fa71350",
-      "http_directory": "http",
+      "floppy_files": "{{template_dir}}/cfg/ks.cfg",
       "cpus": "8",
       "cores": "1",
       "memory": "8192",
@@ -20,7 +20,7 @@
       "tools_upload_flavor": "linux",
       "communicator": "ssh",
       "ssh_port": 22,
-      "ssh_timeout": "15m",
+      "ssh_timeout": "10m",
       "ssh_username": "root",
       "ssh_password": "root",
       "shutdown_command": "poweroff",
@@ -28,7 +28,7 @@
       "boot_command": [
         "<esc>",
         "<wait>",
-        " linux text net.ifnames=0 biosdevname=0 inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg",
+        " linux text net.ifnames=0 biosdevname=0 inst.ks=hd:fd0:/ks.cfg",
         "<enter>",
         "<wait>"
       ],

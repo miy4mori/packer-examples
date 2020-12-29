@@ -3,3 +3,6 @@
 
 # packer
 packer_cache
+
+# vmware
+output-vmware-iso
