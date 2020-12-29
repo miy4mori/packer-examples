@@ -1,0 +1,39 @@
+{
+  "builders": [
+    {
+      "type": "vmware-iso",
+      "vm_name": "CentOS-7-Template",
+      "guest_os_type": "centos-64",
+      "iso_url": "../../isos/CentOS-7-x86_64-Everything-2009.iso",
+      "iso_checksum": "689531cce9cf484378481ae762fae362791a9be078fda10e4f6977bf8fa71350",
+      "cpus": "8",
+      "cores": "1",
+      "memory": "8192",
+      "disk_size": "65536",
+      "disk_type_id": 0,
+      "sound": false,
+      "usb": false,
+      "serial": "NONE",
+      "parallel": "NONE",
+      "headless": false,
+      "tools_upload_flavor": "linux",
+      "communicator": "ssh",
+      "ssh_port": 22,
+      "ssh_timeout": "10m",
+      "ssh_username": "root",
+      "ssh_password": "root",
+      "shutdown_command": "poweroff",
+      "shutdown_timeout": "5m",
+      "boot_command": [
+        "<esc>",
+        "<wait>",
+        " linux text net.ifnames=0 biosdevname=0 inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg",
+        "<enter>",
+        "<wait>"
+      ],
+      "boot_wait": "10s",
+      "skip_export": true,
+      "vmx_remove_ethernet_interfaces": false
+    }
+  ]
+}
