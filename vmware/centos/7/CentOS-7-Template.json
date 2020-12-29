@@ -28,7 +28,7 @@
       "boot_command": [
         "<esc>",
         "<wait>",
-        " linux text inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg biosdevname=0 net.ifnames=0 ",
+        " linux text net.ifnames=0 biosdevname=0 inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg",
         "<enter>",
         "<wait>"
       ],
