@@ -2,11 +2,10 @@
   "builders": [
     {
       "boot_command": [
-        "<up>",
-        "<tab>",
+        "<esc>",
         "<wait>",
         "<spacebar>",
-        "inst.cmdline net.ifnames=0 biosdevname=0 inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `ks_path` }}",
+        "linux text net.ifnames=0 biosdevname=0 inst.ks=cdrom:kickstart/{{ user `ks_path` }}",
         "<enter>",
         "<wait>"
       ],
@@ -14,25 +13,31 @@
       "cpus": "{{ user `cpus` }}",
       "disk_size": "{{ user `disk_size` }}",
       "disk_type_id": 0,
-      "format": "ovf",
-      "guest_os_type": "rhel8-64",
+      "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "{{user `http_directory`}}",
+      "cd_files": ["{{ user `cd_files` }}"],
+      "cd_label": "kickstart",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_url": "{{ user `iso_url` }}",
       "memory": "{{ user `memory` }}",
       "output_directory": "{{ user `build_directory` }}/packer-{{ user `template`}}-vmware",
       "shutdown_command": "sudo -S /sbin/halt -h -p",
-      "ssh_password": "root",
+      "ssh_password": "devops",
       "ssh_port": 22,
       "ssh_timeout": "10000s",
-      "ssh_username": "root",
+      "ssh_username": "devops",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1"
       },
       "vmx_remove_ethernet_interfaces": true
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "compress",
+      "format": "tar.gz"
     }
   ],
   "provisioners": [
@@ -50,17 +55,16 @@
     "box_basename": "rhel-8.3",
     "build_directory": "../../builds",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
-    "cd_files": "{{template_dir}}/http/ks.cfg",
     "cpus": "2",
     "disk_size": "65536",
     "headless": "false",
-    "http_directory": "{{template_dir}}/http",
+    "cd_files": "{{template_dir}}/http/7/ks.cfg",
     "iso_checksum": "30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0",
     "iso_url": "../isos/rhel-8.3-x86_64-dvd.iso",
     "ks_path": "ks.cfg",
     "memory": "2048",
     "name": "rhel-8.3",
-    "template": "rhel-8.3-x64",
+    "template": "rhel-8.3-x86_64",
     "version": "TIMESTAMP"
   }
 }

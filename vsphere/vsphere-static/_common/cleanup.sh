@@ -77,3 +77,5 @@ fi
 echo "clear the history so our install commands aren't there"
 rm -f /root/.wget-hsts
 export HISTSIZE=0
+
+# reboot
