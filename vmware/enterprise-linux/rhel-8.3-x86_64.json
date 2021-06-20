@@ -60,7 +60,7 @@
     "ks_path": "ks.cfg",
     "memory": "2048",
     "name": "rhel-8.3",
-    "template": "rhel-8.3-x64",
+    "template": "rhel-8.3",
     "version": "TIMESTAMP"
   }
 }
